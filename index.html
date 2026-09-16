@@ -411,11 +411,23 @@
 
         // ==================== AUTHENTIFICATION ====================
 
-        unction authenticateGoogle() {
-    // Au lieu de faire un fetch silencieux en arrière-plan, 
-    // on redirige la fenêtre entière vers votre serveur Flask
-    // qui lui-même redirigera vers la vraie page Google.
-    window.location.href = `${BACKEND_URL}/api/auth/login`;
+        async function authenticateGoogle() {
+    try {
+        // On fait une requête silencieuse en GET (comme dans Flask)
+        const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+            method: 'GET'
+        });
+        
+        if (response.ok) {
+            isConnected = true;
+            addMessage('✅ Connecté à Google Drive !', 'system');
+            console.log('Authentification réussie');
+        } else {
+            addMessage('❌ Erreur d\'authentification', 'error');
+        }
+    } catch (error) {
+        addMessage(`❌ Erreur: ${error.message}`, 'error');
+    }
 }
 
         // ==================== BASE DE CONNAISSANCE ====================
