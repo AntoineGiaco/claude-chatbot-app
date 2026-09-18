@@ -562,11 +562,17 @@
                     if (data.relevant_docs && data.relevant_docs.length > 0) {
                         responseHtml += '<div class="relevant-docs"><strong>📚 Documents pertinents:</strong>';
                         data.relevant_docs.forEach(doc => {
+                            // Affichage du nom du document
                             responseHtml += `<span class="doc-ref">${doc.name}</span>`;
+                            
+                            // --- NOUVEAU : Affichage de l'image si c'est un schéma ---
+                            if (doc.is_image && doc.image_url) {
+                                responseHtml += `<br><img src="${doc.image_url}" alt="Schéma : ${doc.name}" style="max-width: 100%; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; border: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">`;
+                            }
+                            // ---------------------------------------------------------
                         });
                         responseHtml += '</div>';
-                    }
-                    
+                    }                    
                     addMessage(responseHtml, 'assistant');
                 } else {
                     addMessage('❌ Erreur lors de la réponse', 'error');
